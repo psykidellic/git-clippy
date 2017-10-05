@@ -53,9 +53,11 @@ def main(path='.', num_recommendations=10):
              X      X
              XXXXXXX
         """))
-    total_num_files = sum(counter.values())
+    total_num_file_commits = sum(counter.values())
+    total_num_files = len(counter)
+    print("{} co-occurring files in commit history.".format(total_num_files))
     for file, count in counter.most_common(num_recommendations):
-        print("{} ({:.2%})".format(file, count/total_num_files))
+        print("{} ({:.2%})".format(file, count/total_num_file_commits))
 
 
 if __name__ == "__main__":
