@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+from clize import run
+from clippy_lib import get_recommendations
+
+
+def main(path='.', num_recommendations=10):
+    get_recommendations.recommend(path, num_recommendations)
+
+
+if __name__ == '__main__':
+    run(main)

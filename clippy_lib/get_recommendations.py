@@ -31,7 +31,7 @@ def get_changed_files(repo):
         yield d.b_path
 
 
-def main(path='.', num_recommendations=10):
+def recommend(path='.', num_recommendations=10):
     repo = Repo(path)
     changed_files = list(tqdm(get_changed_files(repo),
                               desc="Finding changed files", unit=" files"))
@@ -58,8 +58,4 @@ def main(path='.', num_recommendations=10):
     print("{} co-occurring files in commit history.".format(total_num_files))
     for file, count in counter.most_common(num_recommendations):
         print("{} ({:.2%})".format(file, count/total_num_file_commits))
-
-
-if __name__ == "__main__":
-    run(main)
 
