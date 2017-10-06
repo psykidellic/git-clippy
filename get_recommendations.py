@@ -4,6 +4,7 @@ from textwrap import dedent
 from clize import run
 from git import Repo
 from tqdm import tqdm
+import ui
 
 
 def update_counter(repo, paths, counter):
@@ -39,25 +40,14 @@ def main(path='.', num_recommendations=10):
         print("You changed {}".format(file))
 
     counter = count_files(repo, changed_files)
-    print(dedent("""
-        XXXXX           XXXXX
-        
-        XXXXX   XXXXX   XXXXX
-        X X X  X     X  X X X
-        X   X  X  X  X  X   X    I see you have added bugs to some files!
-        XXXXX  X  X  X  XXXXX    Perhaps you should consider these ones also:
-               X  X  X
-               X  X  X
-           XX  X  X  X
-            XX XXXX XX
-             X      X
-             XXXXXXX
-        """))
     total_num_file_commits = sum(counter.values())
     total_num_files = len(counter)
     print("{} co-occurring files in commit history.".format(total_num_files))
+    print('')
+    files = []
     for file, count in counter.most_common(num_recommendations):
-        print("{} ({:.2%})".format(file, count/total_num_file_commits))
+        files.append("{} ({:.2%})".format(file, count/total_num_file_commits))
+    ui.output(files)
 
 
 if __name__ == "__main__":
