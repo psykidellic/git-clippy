@@ -1,5 +1,7 @@
 from collections import Counter
 from textwrap import dedent
+import os
+import sys
 
 from clize import run
 from git import Repo
@@ -14,7 +16,7 @@ def update_counter(repo, paths, counter):
             #       .format(len(c.parents)))
             continue
 
-        counter.update(f for f in c.stats.files.keys() if f not in paths)
+        counter.update(f for f in c.stats.files.keys() if f not in paths and '=>' not in f)
         yield None  # so it's an iterable for tqdm
 
 
@@ -32,8 +34,23 @@ def get_changed_files(repo):
         yield d.b_path
 
 
+def find_git_root(pwd):
+    try:
+        _, dirs, _ = next(os.walk(pwd))
+        if '.git' in dirs:
+            return pwd
+        else:
+            return find_git_root(os.path.dirname(pwd))
+    except StopIteration:
+        return None
+
+
 def main(path='.', num_recommendations=10):
-    repo = Repo(path)
+    repo_path = find_git_root(os.path.abspath(path))
+    if repo_path is None:
+        sys.stderr.write("Couldn't find git repo\n")
+        sys.exit(1)
+    repo = Repo(repo_path)
     changed_files = list(tqdm(get_changed_files(repo),
                               desc="Finding changed files", unit=" files"))
     for file in changed_files:
