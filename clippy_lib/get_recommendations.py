@@ -44,7 +44,7 @@ def find_git_root(pwd):
         return None
 
 
-def recommend(path='.', num_recommendations=10):
+def recommend(path, num_recommendations):
     repo_path = find_git_root(os.path.abspath(path))
     if repo_path is None:
         sys.stderr.write("Couldn't find git repo\n")
@@ -61,7 +61,7 @@ def recommend(path='.', num_recommendations=10):
     print("{} co-occurring files in commit history.".format(total_num_files))
     print('')
     files = []
-    for file, count in counter.most_common(num_recommendations):
-        files.append("{} ({:.2%})".format(file, count/total_num_file_commits))
+    for file, _ in counter.most_common(num_recommendations):
+        files.append(file)
     ui.output(files)
 

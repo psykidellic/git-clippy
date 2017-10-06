@@ -3,7 +3,7 @@ from clize import run
 from clippy_lib import get_recommendations
 
 
-def main(path='.', num_recommendations=10):
+def main(path='.', num_recommendations=5):
     get_recommendations.recommend(path, num_recommendations)
 
 
