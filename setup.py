@@ -8,6 +8,7 @@ setup(name='git-clippy',
       author_email='psykidellic@example.com',
       license='MIT',
       zip_safe=False,
+      scripts=['bin/git-clippy'],
       install_requires=[
             'clize',
             'gitpython'
