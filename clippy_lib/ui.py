@@ -1,5 +1,7 @@
-import textwrap
-import itertools
+from __future__ import print_function
+
+from six.moves import zip_longest
+
 
 CLIPPY = '''\
     XXXXX
@@ -33,12 +35,14 @@ CLIPPY_LINES = [_pad_line(line, CLIPPY_WIDTH) for line in CLIPPY_LINES]
 
 TEXT_WIDTH = 50
 
+
 def _make_dialog(msg_lines, text_width):
     msg_lines = ['| {} |'.format(_pad_line(line, text_width)) for line in msg_lines]
     horiz_border = '-'*len(msg_lines[0])
     msg_lines.insert(0, horiz_border)
     msg_lines.append(horiz_border)
     return msg_lines
+
 
 def output(suggested_files):
     # make message
@@ -55,7 +59,7 @@ def output(suggested_files):
         fillvalue = ' '*CLIPPY_WIDTH
     else:
         fillvalue = ''
-    parts = itertools.izip_longest(CLIPPY_LINES, dialog, fillvalue=fillvalue)
+    parts = zip_longest(CLIPPY_LINES, dialog, fillvalue=fillvalue)
     lines = ['{}{}'.format(i[0], i[1]) for i in parts]
 
     # print it!

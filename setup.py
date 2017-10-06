@@ -1,4 +1,4 @@
-from setuptools import setup,find_packages
+from setuptools import setup
 
 setup(name='git-clippy',
       version='0.1',
@@ -11,7 +11,8 @@ setup(name='git-clippy',
       packages=['clippy_lib'],
       scripts=['bin/git-clippy'],
       install_requires=[
-            'clize',
-            'gitpython',
-            'tqdm'
+          'clize',
+          'gitpython',
+          'tqdm',
+          'six'
       ])

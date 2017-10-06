@@ -1,12 +1,22 @@
+from __future__ import print_function
+
 from collections import Counter
-from textwrap import dedent
 import os
 import sys
 
-from clize import run
 from git import Repo
+from six import iterkeys
 from tqdm import tqdm
-import ui
+
+from clippy_lib import ui
+
+
+def parse_move(path):
+    if '=>' not in path:
+        return path
+
+    a, b = path.split(' => ')
+    return a.split('{')[0] + b.replace('}', '').strip()
 
 
 def update_counter(repo, paths, counter):
@@ -16,7 +26,8 @@ def update_counter(repo, paths, counter):
             #       .format(len(c.parents)))
             continue
 
-        counter.update(f for f in c.stats.files.keys() if f not in paths and '=>' not in f)
+        counter.update(
+            parse_move(f) for f in iterkeys(c.stats.files) if f not in paths)
         yield None  # so it's an iterable for tqdm
 
 
@@ -32,6 +43,7 @@ def count_files(repo, paths):
 def get_changed_files(repo):
     for d in repo.index.diff(None):
         yield d.b_path
+
 
 def find_git_root(pwd):
     try:
