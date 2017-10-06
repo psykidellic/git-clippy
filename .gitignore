@@ -16,3 +16,8 @@
 
 # IDE
 .idea/
+
+#setup.py build directories
+build/
+dist/
+*egg-info/
