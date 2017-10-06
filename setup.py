@@ -11,5 +11,6 @@ setup(name='git-clippy',
       scripts=['bin/git-clippy'],
       install_requires=[
             'clize',
-            'gitpython'
+            'gitpython',
+            'tqdm'
       ])
