@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup,find_packages
 
 setup(name='git-clippy',
       version='0.1',
@@ -8,6 +8,7 @@ setup(name='git-clippy',
       author_email='psykidellic@example.com',
       license='MIT',
       zip_safe=False,
+      packages=find_packages('.'),
       scripts=['bin/git-clippy'],
       install_requires=[
             'clize',
