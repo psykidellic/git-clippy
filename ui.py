@@ -33,8 +33,8 @@ CLIPPY_LINES = [_pad_line(line, CLIPPY_WIDTH) for line in CLIPPY_LINES]
 
 TEXT_WIDTH = 50
 
-def _make_dialog(msg_lines):
-    msg_lines = ['| {} |'.format(_pad_line(line, TEXT_WIDTH)) for line in msg_lines]
+def _make_dialog(msg_lines, text_width):
+    msg_lines = ['| {} |'.format(_pad_line(line, text_width)) for line in msg_lines]
     horiz_border = '-'*len(msg_lines[0])
     msg_lines.insert(0, horiz_border)
     msg_lines.append(horiz_border)
@@ -42,11 +42,12 @@ def _make_dialog(msg_lines):
 
 def output(suggested_files):
     # make message
-    msg_lines = [_pad_line(line, TEXT_WIDTH) for line in PREAMBLE.split('\n')]
+    text_width = max(TEXT_WIDTH, max([len(line) for line in suggested_files]))
+    msg_lines = [_pad_line(line, text_width) for line in PREAMBLE.split('\n')]
     msg_lines = msg_lines + ['', ''] + suggested_files
 
     # make dialog
-    dialog = _make_dialog(msg_lines)
+    dialog = _make_dialog(msg_lines, text_width)
     dialog = ['', ''] + dialog
 
     # join image and dialog
